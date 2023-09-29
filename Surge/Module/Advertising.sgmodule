@@ -1,5 +1,5 @@
 #!name=Block Advertising
-#!desc=Block Advertising with Script/Rewrite(2023/09/18 10:36)
+#!desc=Block Advertising with Script/Rewrite(2023/09/29 11:43)
 
 [Rule]
 # > 微博_请手动添加以下分流至本地
@@ -15,6 +15,8 @@ DOMAIN-SUFFIX,open.e.kuaishou.com,REJECT
 RULE-SET,https://raw.githubusercontent.com/app2smile/rules/master/rule/tieba-ad.list,REJECT-DROP
 
 [Map Local]
+# > 微博_AD_Preload
+^https?:\/\/api\.weibo\.cn\/\d\/ad\/preload data="https://raw.githubusercontent.com/ocd0711/Profiles/master/reject-dict.json"
 # > 微博国际版_趋势页热门影片
 ^https?:\/\/api\.weibo\.cn\/\d\/cardlist\?v_f=.*Weibo_intl data="https://raw.githubusercontent.com/ocd0711/Profiles/master/reject-dict.json"
 # > 微博_用户推荐弹窗
@@ -128,6 +130,10 @@ https://ccsp-egmas.sf-express.com/cx-app-base/base/app/ad/queryAdImages - reject
 ^https?:\/\/gateway\.abite\.com\/cotti-capi\/customer\/position\/list\?code=cotti-launch-window - reject
 
 [Script]
+# > 微博_首页顶部homeExtend
+weibo_json = type=http-response,pattern=^https?:\/\/api\.weibo\.cn\/\d\/groups\/allgroups\/v\d,requires-body=1,max-size=-1,script-path=https://github.com/ddgksf2013/Scripts/raw/master/weibo_json.js
+# > 微博国际版_帖子下方广告banner
+weibo_json = type=http-response,pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=open_app,requires-body=1,max-size=-1,script-path=https://github.com/ddgksf2013/Scripts/raw/master/weibo_json.js
 # > 微博_开屏广告预加载处理
 weibo_json = type=http-response,pattern=^https?:\/\/boot.*weibo\.com\/v\d\/ad\/preload,requires-body=1,max-size=-1,script-path=https://github.com/ddgksf2013/Scripts/raw/master/weibo_json.js
 # > 微博_未登陆状态下首页信息流处理
